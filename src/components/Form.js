@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text } from "react-native";
 import { Input, View, Item, Button } from "native-base";
 import { connect } from "react-redux";
+import { toggleIsAdding, addWord } from "../redux/actionCreator";
 
 class Form extends Component {
   constructor(props) {
@@ -15,14 +16,8 @@ class Form extends Component {
 
   onAdd() {
     const { en, vn } = this.state;
-    this.props.dispatch({
-      type: "ADD_WORD",
-      en,
-      vn,
-    });
-    this.props.dispatch({
-      type: "TOGGLE_IS_ADDING",
-    });
+    this.props.addWord(en, vn);
+    this.props.toggleIsAdding();
   }
   render() {
     return (
@@ -56,4 +51,4 @@ class Form extends Component {
   }
 }
 
-export default connect()(Form);
+export default connect(null, { toggleIsAdding, addWord })(Form);

@@ -2,22 +2,11 @@ import React, { Component } from "react";
 import { StyleSheet } from "react-native";
 import { View, Text, Button, List, ListItem, Right } from "native-base";
 import { connect } from "react-redux";
+import { toggleMemorized, toggleShow } from "../redux/actionCreator";
 
 class Words extends Component {
-  memorizedWord() {
-    this.props.dispatch({
-      type: "TOGGLE_MEMORIZED",
-      id: this.props.word.id,
-    });
-  }
-  showWord() {
-    this.props.dispatch({
-      type: "TOGGLE_SHOW",
-      id: this.props.word.id,
-    });
-  }
   render() {
-    const { en, vn, memorized, isShow } = this.props.word;
+    const { en, vn, memorized, isShow, id } = this.props.word;
     const textDecorationLine = memorized ? "line-through" : "none";
     const memorizedButtonText = memorized ? "forget" : "memorized";
     const meaning = isShow ? vn : "";
@@ -36,10 +25,10 @@ class Words extends Component {
             padding: 5,
           }}
         >
-          <Button primary onPress={this.memorizedWord.bind(this)}>
+          <Button primary onPress={() => this.props.toggleMemorized(id)}>
             <Text>{memorizedButtonText}</Text>
           </Button>
-          <Button primary onPress={this.showWord.bind(this)}>
+          <Button primary onPress={() => this.props.toggleShow(id)}>
             <Text>show</Text>
           </Button>
         </View>
@@ -69,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(Words);
+export default connect(null, { toggleMemorized, toggleShow })(Words);
